@@ -5,7 +5,7 @@
  * Date: 12.03.17
  * Time: 15:22
  */
-error_log("Load child theme-functions");
+//error_log("Load child theme-functions");
 
 add_filter('wp_title', 'filterTitle');
 function filterTitle($title) {
@@ -47,4 +47,59 @@ function addAdminMenu(){
 }
 function renderThemeMenu(){
     _e('Sub theme Step By Step', MY_THEME_TEXTDOMAIN);
+}
+
+
+add_shortcode( 'twentyseventeen_child_guest_book', 'guestBookShortcode');
+function guestBookShortcode(){
+    $output = '';
+    $output .= '<form  method="post">
+                    <label>'.__('User name', MY_THEME_TEXTDOMAIN ).'</label>
+                    <input type="text" name="twentyseventeen_child_" class="twentyseventeen-child-name">
+                    <label>'.__('Message', MY_THEME_TEXTDOMAIN ).'</label>
+                    <textarea name="twentyseventeen_child_message" class="twentyseventeen-child-message"></textarea>
+                    <button class="twentyseventeen-child-btn-add" >'.__('Add', MY_THEME_TEXTDOMAIN ).'</button>                   
+                </form>';
+    return $output;
+}
+
+add_action('media_buttons','addMediaButtons');
+function addMediaButtons(){
+    $button = '<a href="#" id="guestBookShortcodeButton" class="su-generator-button button">'
+        .__('Insert shortcode', MY_THEME_TEXTDOMAIN).'</a>';
+    echo $button;
+
+}
+
+add_action('admin_enqueue_scripts', 'loadScriptAdmin');
+function loadScriptAdmin($hook){
+    wp_enqueue_script(
+        'twentyseventeen_child_admin_main', //$handle
+        get_stylesheet_directory_uri() .'/assets/js/twentyseventeen-child-admin-main.js', //$src
+        array(
+            'jquery',
+        )
+    );
+
+}
+
+add_action( 'init', 'setupTinyMCE' );
+function setupTinyMCE(){
+    add_filter( 'mce_external_plugins', 'addTinyMCE' );
+    add_filter( 'mce_buttons', 'addTinyMCEToolbar' );
+}
+
+function addTinyMCE( $plugin_array ) {
+
+    $plugin_array['twentyseventeen_child_custom_class'] = get_stylesheet_directory_uri()
+        . '/assets/js/MYTinyMCE.js';
+    return $plugin_array;
+
+}
+
+function addTinyMCEToolbar( $buttons ) {
+
+    array_push( $buttons, 'guest_book_shortcode_button' );
+    return $buttons;
+
 }
