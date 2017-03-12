@@ -8,4 +8,5 @@ Template: twentyseventeen
 Version: 1.0
 */
 
+/* импортируем стили родительской темы Twenty Seventeen */
 @import url("../twentyseventeen/style.css");
