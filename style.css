@@ -6,8 +6,9 @@ Author: SolomashenkoRoman
 Author URI: https://www.linkedin.com/in/solomashenkoroman/
 Template: twentyseventeen
 Version: 1.0
-
+Text Domain: twentyseventeen-child
+Domain Path: /languages/
 */
 
 /* импортируем стили родительской темы Twenty Seventeen */
-@import url("../twentyseventeen/style.css");
+/*@import url("../twentyseventeen/style.css");*/
